@@ -46,6 +46,7 @@ void insert(struct Trie *head, char* str)
 /// Will build a word from input array and will insert to the trietree
 void build_word(char input[], int start, int end,struct Trie* head){
 
+    if(end == start ){return;}
     char *word = (char*)malloc(sizeof(char)*(end-start+2));
 
     int k =0;
@@ -77,14 +78,16 @@ void appendtoinput(char *input, struct Trie* head,int input_len){
 
         if(temp>= 97 && temp<=122){
             *(input+i) = temp;
+                    i++;
         }else if(temp>= 65 && temp<=90){
             temp = temp+32;
             *(input+i) = temp;
-        } else if(temp == 32){
-            build_word(input,j,i,head);
-            j = i+1;
+            i++;
+        } else if(temp == 32) {
+            build_word(input, j, i, head);
+
+            j=++i;
         }
-        i++;
 
         if(i == temp_len){
             TRY:
