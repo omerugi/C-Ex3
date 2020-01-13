@@ -128,21 +128,8 @@ void delete(struct Trie* root)
 
 void display(struct Trie* root, char str[], int level,struct Trie* r, int len)
 {
-
-//    if(len <= level){
-//        str =(char*) realloc(str, len+10);
-//        len = len+10;
-//    }
-    // If node is leaf node, it indicates end
-    // of string, so a null character is added
-    // and string is displayed
     if (root->isLeaf)
     {
-        //printf("size of str = %d" , len);
-        //printf("level = %d" , level);
-        //str[level] = '\0';
-        //printf("%s\t%d\n",str,root->counter);
-
         printf("\t %d \n",root->counter);
 
     }
@@ -150,16 +137,8 @@ void display(struct Trie* root, char str[], int level,struct Trie* r, int len)
     int i;
     for (i = 0; i < CHAR_SIZE; i++)
     {
-        // if NON NULL child is found
-        // add parent key to str and
-        // call the display function recursively
-        // for child node
         if (root->character[i])
         {
-            //printf("size of str = %d" , len);
-            //printf("level = %d" , level);
-            //str[level] = i + 'a';
-
             printf("%c",i + 'a');
             display(root->character[i], str, level + 1,r,len);
         }
@@ -171,32 +150,21 @@ void display(struct Trie* root, char str[], int level,struct Trie* r, int len)
 void displayrev(struct Trie* root, char str[], int level)
 {
 
-    if(level > sizeof(&str)){
-        str =(char*) realloc(str, sizeof(&str)*2);
-    }
-    // If node is leaf node, it indicates end
-    // of string, so a null character is added
-    // and string is displayed
     if (root->isLeaf)
     {
-        str[level] = '\0';
-        printf("%s\t%d\n",str,root->counter);
+        printf("\t %d \n",root->counter);
+
     }
 
     int i;
     for (i = CHAR_SIZE-1; i >= 0; i--)
     {
-        // if NON NULL child is found
-        // add parent key to str and
-        // call the display function recursively
-        // for child node
         if (root->character[i])
         {
-            str[level] = i + 'a';
-            displayrev(root->character[i], str, level + 1);
+            printf("%c",i + 'a');
+            display(root->character[i], str, level + 1,r,len);
         }
     }
-
 }
 
 /// Will call the display function and free str
