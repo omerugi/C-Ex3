@@ -74,7 +74,7 @@ void appendtoinput(char *input, struct Trie* head,int input_len){
     int k=2;
     int j=0;
     int temp_len = input_len;
-    while ((temp = getchar()) != '\n' && temp != EOF){
+    while ((temp = getchar()) != EOF){
 
         if(temp>= 97 && temp<=122){
             *(input+i) = temp;
@@ -83,7 +83,7 @@ void appendtoinput(char *input, struct Trie* head,int input_len){
             temp = temp+32;
             *(input+i) = temp;
             i++;
-        } else if(temp == 32) {
+        } else if(temp == 32 || temp == '\n') {
             build_word(input, j, i, head);
 
             j=++i;
@@ -92,7 +92,8 @@ void appendtoinput(char *input, struct Trie* head,int input_len){
         if(i == temp_len){
             TRY:
             ;
-            char *tmp = (char *)realloc(input, sizeof(char)+input_len*k);
+            char *tmp;
+            tmp = (char *) realloc(input, sizeof(char) + input_len * k);
             temp_len =input_len*k;
             k++;
             if (tmp != NULL) {
@@ -124,19 +125,26 @@ void delete(struct Trie* root)
 }
 
 /// Will dispaly all the word in the tree
-void display(struct Trie* root, char str[], int level,struct Trie* r)
+
+void display(struct Trie* root, char str[], int level,struct Trie* r, int len)
 {
 
-    if(level > sizeof(&str)){
-        str =(char*) realloc(str, sizeof(&str)*2);
-    }
+//    if(len <= level){
+//        str =(char*) realloc(str, len+10);
+//        len = len+10;
+//    }
     // If node is leaf node, it indicates end
     // of string, so a null character is added
     // and string is displayed
     if (root->isLeaf)
     {
-        str[level] = '\0';
-        printf("%s\t%d\n",str,root->counter);
+        //printf("size of str = %d" , len);
+        //printf("level = %d" , level);
+        //str[level] = '\0';
+        //printf("%s\t%d\n",str,root->counter);
+
+        printf("\t %d \n",root->counter);
+
     }
 
     int i;
@@ -148,8 +156,12 @@ void display(struct Trie* root, char str[], int level,struct Trie* r)
         // for child node
         if (root->character[i])
         {
-            str[level] = i + 'a';
-            display(root->character[i], str, level + 1,r);
+            //printf("size of str = %d" , len);
+            //printf("level = %d" , level);
+            //str[level] = i + 'a';
+
+            printf("%c",i + 'a');
+            display(root->character[i], str, level + 1,r,len);
         }
     }
 
@@ -188,8 +200,8 @@ void displayrev(struct Trie* root, char str[], int level)
 }
 
 /// Will call the display function and free str
-void disdis(struct Trie* root, char str[], int level){
-    display(root,str,level,root);
+void disdis(struct Trie* root, char str[], int level,int len){
+    display(root,str,level,root,len);
     free(str);
 }
 /// Will call the displayrev function and free str
