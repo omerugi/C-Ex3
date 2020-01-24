@@ -16,13 +16,9 @@ int main(int argc, char **argv)
     appendtoinput(input, head,input_len);
 
     if(argc == 2 && argv[1][0] == 'r' ){
-        char *str1;
-        str1 = (char *) malloc(sizeof(char) * 16);
-        disdisrev(head,str1,0);
+        disdisrev(head,0);
     } else{
-        char *str;
-        str = (char *) malloc(sizeof(char) * 10);
-        disdis(head,str,0,10);
+        disdis(head,0);
     }
 
     delete(head);

@@ -65,7 +65,7 @@ void build_word(char input[], int start, int end,struct Trie* head){
 
     free(word);
 }
-
+int max_Word =0;
 /// Iterative function separated words from the buffer
 void appendtoinput(char *input, struct Trie* head,int input_len){
 
@@ -73,19 +73,24 @@ void appendtoinput(char *input, struct Trie* head,int input_len){
     int i =0;
     int k=2;
     int j=0;
+    int temp_max=0;
     int temp_len = input_len;
     while ((temp = getchar()) != EOF){
 
         if(temp>= 97 && temp<=122){
             *(input+i) = temp;
                     i++;
+                    temp_max++;
         }else if(temp>= 65 && temp<=90){
             temp = temp+32;
             *(input+i) = temp;
+            temp_max++;
             i++;
         } else if(temp == 32 || temp == '\n') {
             build_word(input, j, i, head);
-
+            if(temp_max>max_Word) {
+                max_Word = temp_max;
+            } temp_max = 0;
             j=++i;
         }
 
@@ -126,12 +131,13 @@ void delete(struct Trie* root)
 
 /// Will dispaly all the word in the tree
 
-void display(struct Trie* root, char str[], int level,struct Trie* r, int len)
+void display(struct Trie* root, char str[], int level)
 {
     if (root->isLeaf)
     {
-        printf("\t %d \n",root->counter);
-
+       // printf("\t %d \n",root->counter);
+        str[level] = '\0';
+        printf("%s\t%d\n",str,root->counter);
     }
 
     int i;
@@ -139,8 +145,8 @@ void display(struct Trie* root, char str[], int level,struct Trie* r, int len)
     {
         if (root->character[i])
         {
-            printf("%c",i + 'a');
-            display(root->character[i], str, level + 1,r,len);
+            str[level]= i+'a';
+            display(root->character[i], str, level + 1);
         }
     }
 
@@ -149,11 +155,11 @@ void display(struct Trie* root, char str[], int level,struct Trie* r, int len)
 /// Will reverce dispaly all the word in the tree
 void displayrev(struct Trie* root, char str[], int level)
 {
-
     if (root->isLeaf)
     {
-        printf("\t %d \n",root->counter);
-
+        // printf("\t %d \n",root->counter);
+        str[level] = '\0';
+        printf("%s\t%d\n",str,root->counter);
     }
 
     int i;
@@ -161,20 +167,22 @@ void displayrev(struct Trie* root, char str[], int level)
     {
         if (root->character[i])
         {
-            printf("%c",i + 'a');
-            display(root->character[i], str, level + 1,r,len);
+            str[level]= i+'a';
+            displayrev(root->character[i], str, level + 1);
         }
     }
+
+
 }
 
 /// Will call the display function and free str
-void disdis(struct Trie* root, char str[], int level,int len){
-    display(root,str,level,root,len);
-    free(str);
+void disdis(struct Trie* root,  int level){
+    char str[max_Word+1];
+    display(root,str,level);
 }
 /// Will call the displayrev function and free str
-void disdisrev(struct Trie* root, char str[], int level){
+void disdisrev(struct Trie* root, int level){
+    char str[max_Word+1];
     displayrev(root,str,level);
-    free(str);
 }
 
