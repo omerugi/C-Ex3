@@ -137,7 +137,7 @@ void display(struct Trie* root, char str[], int level)
     {
        // printf("\t %d \n",root->counter);
         str[level] = '\0';
-        printf("%s\t%d\n",str,root->counter);
+        printf("%s %d\n",str,root->counter);
     }
 
     int i;
@@ -159,7 +159,7 @@ void displayrev(struct Trie* root, char str[], int level)
     {
         // printf("\t %d \n",root->counter);
         str[level] = '\0';
-        printf("%s\t%d\n",str,root->counter);
+        printf("%s %d\n",str,root->counter);
     }
 
     int i;
